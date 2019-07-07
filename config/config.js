@@ -2,7 +2,7 @@
 * @Author: wangxuan
 * @Date:   2019-06-29 13:28:24
 * @Last Modified by:   wangxuan
-* @Last Modified time: 2019-06-30 00:24:02
+* @Last Modified time: 2019-07-06 20:01:39
 */
 
 export default {
@@ -21,6 +21,10 @@ export default {
             routes: [
                 {
                     path: '/',
+                    component: './HelloWorld',
+                },
+                {
+                    path: '/card',
                     component: './HelloWorld',
                 },
                 {
@@ -52,8 +56,16 @@ export default {
                     component: './puzzlecards',
                 },
                 {
-                    path: 'list',
+                    path: '/list',
                     component: '../page/list',
+                },
+                {
+                    path: '/carousel',
+                    component: './carousel/carouselDemo',
+                },
+                {
+                    path: '/chart',
+                    component: './chart',
                 },
             ]
         }

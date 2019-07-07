@@ -2,7 +2,7 @@
 * @Author: wangxuan
 * @Date:   2019-06-29 17:52:44
 * @Last Modified by:   wangxuan
-* @Last Modified time: 2019-06-30 00:18:05
+* @Last Modified time: 2019-07-06 20:04:57
 */
 
 import request from '../util/request';  // request 是 demo 项目脚手架中提供的一个做 http 请求的方法，是对于 fetch 的封装，返回 Promise
@@ -22,7 +22,7 @@ export default {
   effects: {
     *queryInitCards(_, sagaEffects) {
       const { call, put } = sagaEffects;
-      const endPointURI = '/dev/random_joke';
+      const endPointURI = 'https://official-joke-api.appspot.com/random_joke';
 
       const puzzle = yield call(request, endPointURI);
       yield put({ type: 'addNewCard', payload: puzzle });

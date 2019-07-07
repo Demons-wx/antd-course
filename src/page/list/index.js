@@ -2,12 +2,13 @@
 * @Author: wangxuan
 * @Date:   2019-06-30 00:23:11
 * @Last Modified by:   wangxuan
-* @Last Modified time: 2019-06-30 01:01:35
+* @Last Modified time: 2019-07-06 20:50:30
 */
 
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Modal, Button, Form, Input } from 'antd';
+import SampleChart from '../../components/SampleChart';
 
 
 const FormItem = Form.Item;
@@ -15,6 +16,8 @@ const FormItem = Form.Item;
 class List extends React.Component {
   state = {
     visible: false,
+    statisticVisible: false,
+    id: null,
   };
   showModal = () => {
     this.setState({ visible: true });
@@ -61,15 +64,40 @@ class List extends React.Component {
         dataIndex: 'url',
         render: value => <a href={value}>{value}</a>
       },
+      {
+        title: '',
+        dataIndex: '_',
+        render: (_, { id }) => {
+          return (
+            <Button onClick={() => { this.showStatistic(id); }}>图表</Button>
+          );
+        },
+      },
   ];
-
   
+  showStatistic = (id) => {
+    this.props.dispatch({
+      type: 'cards/getStatistic',
+      payload: id,
+    });
+    // 更新 state，弹出包含图表的对话框
+    this.setState({ id, statisticVisible: true });
+  };
 
+  handleStatisticCancel = () => {
+    this.setState({
+      statisticVisible: false,
+    });
+  }
+  
   render() {
 
     const { visible } = this.state;
     const { form: { getFieldDecorator } } = this.props;
     const { cardsList, cardsLoading } = this.props;
+
+    const { /* ... */ statisticVisible, id } = this.state;
+    const { /* ... */ statistic } = this.props;
 
     return (
       <div>
@@ -103,6 +131,10 @@ class List extends React.Component {
             </FormItem>
           </Form>
         </Modal>
+
+        <Modal visible={statisticVisible} footer={null} onCancel={this.handleStatisticCancel}>
+          <SampleChart data={statistic[id]} />
+        </Modal>
       </div>
     );
   }
@@ -112,6 +144,7 @@ class List extends React.Component {
     return {
       cardsList: state.cards.cardsList,
       cardsLoading: state.loading.effects['cards/queryList'],
+      statistic: state.cards.statistic,
     };
   }
 
